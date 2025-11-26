@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaim Kode Voucher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Tampilan (CSS) --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Desain Input Form */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 12px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box; /* Agar padding tidak melebarkan input */
+            transition: border-color 0.3s;
+            text-transform: uppercase; /* Huruf otomatis kapital */
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        /* Tombol Klaim */
+        .btn-submit {
+            background-color: #3498db;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* Area Hasil (Barcode Visual) */
+        #result-area {
+            display: none; /* Tersembunyi di awal */
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #ddd;
+            animation: slideDown 0.5s ease;
+        }
+
+        .barcode-visual {
+            font-family: 'Libre Barcode 128 Text', cursive;
+            font-size: 50px;
+            color: #2c3e50;
+            display: block;
+            margin: 10px 0;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Selamat Datang Pelanggan</h2>
+        <p class="description">Silakan masukkan kode voucher yang tertera pada product anda untuk melakukan klaim.</p>
+
+        <div class="input-group">
+            <label for="barcodeInput">MASUKKAN KODE BARCODE:</label>
+            <input type="text" id="barcodeInput" placeholder="Contoh: MEMBER2024" autocomplete="off">
+        </div>
+
+        <button class="btn-submit" onclick="prosesKlaim()">Klaim Voucher</button>
+
+        <div id="result-area">
+            <span class="status-badge">✓ Berhasil Diklaim</span>
+            <p style="margin:0; font-size:12px; color:#888;">Kode Barcode Digital Anda:</p>
+            
+            <div class="barcode-visual" id="displayBarcode"></div>
+            
+            <p style="font-size:12px; color:red;">*Tunjukkan layar ini ke kasir</p>
+        </div>
+    </div>
+
+    <script>
+        function prosesKlaim() {
+            // 1. Ambil nilai yang diketik pelanggan
+            var inputVal = document.getElementById('barcodeInput').value;
+            var resultArea = document.getElementById('result-area');
+            var displayArea = document.getElementById('displayBarcode');
+
+            // 2. Cek apakah kosong?
+            if (inputVal.trim() === "") {
+                alert("Harap ketik kode barcode terlebih dahulu!");
+                return;
+            }
+
+            // 3. Tampilkan area hasil
+            resultArea.style.display = "block";
+            
+            // 4. Masukkan teks input ke area visual barcode
+            // Teks ini otomatis akan terlihat seperti garis-garis barcode karena font di CSS
+            displayArea.innerText = inputVal; 
+
+            // 5. Kosongkan input form (opsional, agar terlihat rapi)
+            // document.getElementById('barcodeInput').value = ""; 
+        }
+    </script>
+
+</body>
+</html>

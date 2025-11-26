@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk - HELLBOY</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* === GAYA TAMPILAN (SAMA DENGAN HOME) === */
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding-top: 80px; }
+        
+        /* Navbar */
+        nav { background: white; position: fixed; top: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 15px rgba(0,0,0,0.05); box-sizing: border-box; z-index: 999; }
+        .logo { font-size: 24px; font-weight: 700; color: #2d3436; letter-spacing: 1px; }
+        .nav-links a { text-decoration: none; color: #636e72; margin-left: 25px; font-weight: 500; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: #6c5ce7; }
+        .nav-links a.active { color: #6c5ce7; font-weight: 600; }
+
+        /* Container */
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        /* Header Katalog */
+        .catalog-header { text-align: center; margin-bottom: 40px; }
+        .catalog-header h1 { margin: 0; color: #2d3436; }
+        .catalog-header p { color: #b2bec3; margin-top: 5px; }
+
+        /* Search Bar */
+        .search-box {
+            max-width: 500px; margin: 20px auto; position: relative;
+        }
+        .search-box input {
+            width: 100%; padding: 15px 20px; border-radius: 50px; border: 1px solid #dfe6e9;
+            outline: none; font-family: 'Poppins', sans-serif; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-sizing: border-box; /* PENTING */
+        }
+        .search-box i { position: absolute; right: 20px; top: 15px; color: #b2bec3; }
+
+        /* Grid Produk */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        /* Kartu Produk */
+        .card {
+            background: white; border-radius: 15px; padding: 15px; text-align: center;
+            border: 1px solid #f1f2f6; transition: 0.3s; position: relative;
+            text-decoration: none; color: inherit; display: block;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: #6c5ce7; }
+        
+        .card img { width: 100%; height: 150px; object-fit: contain; margin-bottom: 15px; }
+        .card h3 { font-size: 16px; margin: 10px 0 5px 0; color: #2d3436; }
+        .card .price { color: #6c5ce7; font-weight: 700; font-size: 15px; }
+        .card .category { font-size: 12px; color: #b2bec3; background: #f1f2f6; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 5px; }
+
+        /* Tombol WA Floating */
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; width: 60px; height: 60px; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); text-decoration: none; z-index: 1000; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" style="text-decoration:none;">
+            <div class="logo">HELLBOY</div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="belanja.html" class="active">Shopping</a>
+            <a href="berita.html">Berita</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="catalog-header">
+            <h1>Semua Koleksi</h1>
+            <p>Temukan perlengkapan sekolah & kantor terbaik di sini.</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari barang (misal: pulpen)..." onkeyup="filterProduk()">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div class="product-grid" id="tempatProduk">
+            </div>
+
+    </div>
+
+    <a href="https://wa.me/628983270261" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // === DATABASE PRODUK BANYAK ===
+        // Anda bisa tambahkan produk sebanyak-banyaknya di sini
+        const daftarProduk = [
+            { nama: "Pulpen Standard Biru", harga: "Rp 5.000", kat: "Alat Tulis", img: "blue-pen.png", link: "https://tokopedia.com" },
+            { nama: "Topi Hitam Polos", harga: "Rp 25.000", kat: "Fashion", img: "topihitam.jpg", link: "https://shopee.co.id" },
+            { nama: "Spidol Boardmarker", harga: "Rp 8.500", kat: "Alat Tulis", img: "tas.png", link: "#" },
+            { nama: "Tipe-X Kertas", harga: "Rp 10.000", kat: "Alat Tulis", img: "topihitam.jpg", link: "#" },
+            { nama: "Tas Ransel Sekolah", harga: "Rp 150.000", kat: "Fashion", img: "tas.png", link: "#" },
+            { nama: "Jam Tangan Digital", harga: "Rp 75.000", kat: "Aksesoris", img: "jamtangan.png", link: "#" },
+            { nama: "Buku Tulis 58 Lembar", harga: "Rp 4.500", kat: "Buku", img: "topihitam.jpg", link: "#" },
+            { nama: "Penggaris Besi 30cm", harga: "Rp 7.000", kat: "Alat Tulis", img: "topihitam.jpg", link: "#" },
+            { nama: "Pensil 2B Faber", harga: "Rp 3.000", kat: "Alat Tulis", img: "topihitam.jpg", link: "#" },
+            { nama: "Penghapus Karet", harga: "Rp 2.000", kat: "Alat Tulis", img: "topihitam.jpg", link: "#" },
+            { nama: "Kotak Pensil Kain", harga: "Rp 15.000", kat: "Aksesoris", img: "topihitam.jpg", link: "#" },
+            { nama: "Lem Kertas Stick", harga: "Rp 5.000", kat: "Alat Kantor", img: "topihitam.jpg", link: "#" }
+        ];
+
+        // Fungsi Menampilkan Produk
+        function tampilkanProduk(data) {
+            const wadah = document.getElementById('tempatProduk');
+            wadah.innerHTML = ""; // Bersihkan dulu
+
+            data.forEach(item => {
+                const html = `
+                    <a href="${item.link}" target="_blank" class="card">
+                        <img src="${item.img}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        <div class="category">${item.kat}</div>
+                        <h3>${item.nama}</h3>
+                        <div class="price">${item.harga}</div>
+                    </a>
+                `;
+                wadah.innerHTML += html;
+            });
+        }
+
+        // Fungsi Pencarian (Search)
+        function filterProduk() {
+            const ketikan = document.getElementById('searchInput').value.toLowerCase();
+            
+            const hasilFilter = daftarProduk.filter(item => {
+                return item.nama.toLowerCase().includes(ketikan) || item.kat.toLowerCase().includes(ketikan);
+            });
+
+            tampilkanProduk(hasilFilter);
+        }
+
+        // Jalankan saat halaman dibuka
+        tampilkanProduk(daftarProduk);
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita & Promo - HELLBOY</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* === STYLE GLOBAL === */
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding-top: 80px; }
+        
+        /* Navbar */
+        nav { background: white; position: fixed; top: 0; width: 100%; height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 5%; box-shadow: 0 2px 15px rgba(0,0,0,0.05); box-sizing: border-box; z-index: 999; }
+        .logo { font-size: 24px; font-weight: 700; color: #2d3436; letter-spacing: 1px; }
+        .nav-links a { text-decoration: none; color: #636e72; margin-left: 25px; font-weight: 500; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: #6c5ce7; }
+        .nav-links a.active { color: #6c5ce7; font-weight: 600; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-header h1 { color: #2d3436; margin-bottom: 10px; }
+        .page-header p { color: #b2bec3; }
+
+        /* === TAMPILAN KARTU BERITA === */
+        .news-card { 
+            background: white; border-radius: 15px; overflow: hidden; 
+            border: 1px solid #f1f2f6; margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            transition: 0.3s;
+        }
+        .news-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-color: #6c5ce7; }
+
+        .news-img { width: 100%; height: 250px; object-fit: cover; }
+        
+        .news-content { padding: 30px; }
+        .news-date { font-size: 12px; color: #6c5ce7; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        .news-title { font-size: 22px; margin: 0 0 15px 0; color: #2d3436; line-height: 1.4; }
+        
+        /* Konten Singkat */
+        .news-summary { font-size: 15px; color: #636e72; line-height: 1.7; }
+
+        /* Konten Lengkap (Awalnya Sembunyi) */
+        .full-story { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #dfe6e9; font-size: 15px; color: #636e72; line-height: 1.7; }
+        
+        /* Tombol Baca */
+        .read-btn { 
+            background: none; border: none; color: #2d3436; font-weight: 600; 
+            font-size: 14px; cursor: pointer; padding: 0; margin-top: 15px;
+            display: flex; align-items: center; font-family: 'Poppins', sans-serif;
+        }
+        .read-btn:hover { color: #6c5ce7; }
+        .read-btn i { margin-left: 8px; transition: 0.3s; }
+        .read-btn.active i { transform: rotate(90deg); } /* Panah muter kalau diklik */
+
+        /* WA Button */
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; width: 60px; height: 60px; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); text-decoration: none; z-index: 1000; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" style="text-decoration:none;">
+            <div class="logo">HELLBOY</div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="belanja.html">Shopping</a>
+            <a href="berita.html" class="active">Berita</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Berita & Promo</h1>
+            <p>Informasi terbaru seputar produk dan penawaran spesial.</p>
+        </div>
+
+        <article class="news-card">
+            <img src="https://via.placeholder.com/800x400?text=PROMO+12.12" class="news-img">
+            <div class="news-content">
+                <span class="news-date">12 DESEMBER 2024</span>
+                <h2 class="news-title">Promo Besar-besaran Harbolnas 12.12</h2>
+                
+                <p class="news-summary">
+                    Dapatkan diskon hingga 70% untuk pembelian paket alat tulis sekolah. Gratis ongkir ke seluruh Indonesia.
+                </p>
+
+                <div class="full-story" id="berita1">
+                    <p>Promo berlaku mulai tanggal 12-14 Desember 2024. Berlaku untuk semua produk pulpen, buku tulis, dan tas sekolah. <br><br>
+                    <strong>Syarat & Ketentuan:</strong><br>
+                    1. Minimal belanja Rp 50.000<br>
+                    2. Maksimal potongan Rp 20.000<br>
+                    3. Berlaku di website dan toko offline.</p>
+                </div>
+
+                <button class="read-btn" onclick="bacaSelengkapnya('berita1', this)">
+                    Baca Selengkapnya <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <img src="https://via.placeholder.com/800x400?text=AWARD+WINNER" class="news-img">
+            <div class="news-content">
+                <span class="news-date">10 NOVEMBER 2024</span>
+                <h2 class="news-title">Hellboy Meraih Penghargaan Top Brand 2024</h2>
+                
+                <p class="news-summary">
+                    Terima kasih atas kepercayaan pelanggan setia. Tahun ini kami dinobatkan sebagai merk alat tulis paling inovatif.
+                </p>
+
+                <div class="full-story" id="berita2">
+                    <p>Penghargaan ini diberikan oleh Majalah Marketing berdasarkan survei ke lebih dari 5.000 responden di 5 kota besar.<br><br>
+                    Kami berkomitmen untuk terus meningkatkan kualitas produk dan layanan kami kedepannya.</p>
+                </div>
+
+                <button class="read-btn" onclick="bacaSelengkapnya('berita2', this)">
+                    Baca Selengkapnya <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <img src="https://via.placeholder.com/800x400?text=TIPS+BELAJAR" class="news-img">
+            <div class="news-content">
+                <span class="news-date">05 OKTOBER 2024</span>
+                <h2 class="news-title">Tips Memilih Pulpen yang Nyaman</h2>
+                
+                <p class="news-summary">
+                    Menulis berjam-jam bisa membuat tangan pegal jika salah memilih pulpen. Simak tipsnya di sini.
+                </p>
+
+                <div class="full-story" id="berita3">
+                    <p>1. Pilih grip karet yang empuk.<br>
+                    2. Sesuaikan ketebalan tinta (0.5mm untuk detail, 0.7mm untuk tanda tangan).<br>
+                    3. Pastikan tinta tipe gel agar tidak perlu menekan terlalu kuat saat menulis.</p>
+                </div>
+
+                <button class="read-btn" onclick="bacaSelengkapnya('berita3', this)">
+                    Baca Selengkapnya <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </article>
+
+        </div>
+
+    <a href="https://wa.me/628983270261" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // Fungsi untuk membuka/menutup berita
+        function bacaSelengkapnya(idBerita, tombol) {
+            var konten = document.getElementById(idBerita);
+            
+            if (konten.style.display === "block") {
+                // Kalau lagi terbuka, tutup
+                konten.style.display = "none";
+                tombol.innerHTML = 'Baca Selengkapnya <i class="fas fa-chevron-right"></i>';
+                tombol.classList.remove('active');
+            } else {
+                // Kalau lagi tertutup, buka
+                konten.style.display = "block";
+                tombol.innerHTML = 'Tutup Berita <i class="fas fa-chevron-right"></i>';
+                tombol.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

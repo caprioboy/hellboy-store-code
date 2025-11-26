@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELLBOY - Official Store</title>
+    
+    <link rel="icon" href="logo.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* === 1. GLOBAL STYLE (ELEGANT WHITE) === */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        /* === 2. NAVIGATION BAR === */
+        nav {
+            background: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3436;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #636e72;
+            margin-left: 25px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: #6c5ce7; }
+        .nav-links a.active { color: #6c5ce7; font-weight: 600; }
+
+        /* === 3. MAIN CONTAINER === */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 80vh;
+        }
+
+        .kotak {
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
+            text-align: center;
+            border: 1px solid #f1f2f6;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { color: #2d3436; margin-bottom: 10px; font-weight: 600; }
+        p { color: #b2bec3; font-size: 14px; margin-bottom: 25px; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 12px;
+            background: #fdfdfd;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1); }
+
+        button {
+            width: 100%; padding: 15px; border: none; border-radius: 12px;
+            font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif; font-size: 14px;
+        }
+
+        .btn-utama { background: #2d3436; color: white; }
+        .btn-utama:hover { background: #000; transform: translateY(-2px); }
+        
+        .btn-sukses { background: #00b894; color: white; }
+        .btn-abu { background: #f1f2f6; color: #636e72; margin-top: 20px; }
+        .btn-abu:hover { background: #dfe6e9; }
+        
+        .btn-loading { background: #b2bec3; cursor: not-allowed; transform: none !important; }
+
+        .badge { padding: 6px 15px; border-radius: 30px; color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+        img { width: 140px; margin-bottom: 20px; }
+        
+        .hidden { display: none; }
+
+        /* === 4. FITUR SHOPPING & BERITA === */
+        .section-header {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2d3436;
+            margin: 0;
+        }
+        .see-all-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .see-all-link:hover { color: #4834d4; letter-spacing: 0.5px; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .shop-link { text-decoration: none; color: inherit; display: block; }
+
+        .shop-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #f1f2f6;
+            transition: 0.3s;
+            height: 100%;
+        }
+        .shop-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: #6c5ce7;
+        }
+        .shop-img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; }
+        .shop-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; display: block; }
+        .shop-price { color: #6c5ce7; font-weight: bold; font-size: 13px; }
+
+        /* === 5. BERITA === */
+        .news-list { width: 100%; max-width: 800px; padding: 0 20px; }
+        
+        .news-item {
+            background: white; 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-bottom: 15px;
+            display: flex; 
+            align-items: center; 
+            border: 1px solid #f1f2f6;
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .news-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: #6c5ce7;
+        }
+
+        .news-icon {
+            background: #dfe6e9; width: 50px; height: 50px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; margin-right: 15px;
+            color: #636e72; font-size: 20px;
+        }
+        .news-content h4 { margin: 0 0 5px 0; font-size: 16px; color: #2d3436; }
+        .news-content p { margin: 0; font-size: 12px; color: #b2bec3; }
+
+        /* === 6. WA BUTTON === */
+        .wa-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background-color: #25d366; color: #FFF;
+            width: 60px; height: 60px; border-radius: 50px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            text-decoration: none; z-index: 1000; transition: 0.3s;
+        }
+        .wa-float:hover { transform: scale(1.1); }
+        
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f8f9fa; font-size: 14px; }
+        .pesan-container { background: #fffcf0; border: 1px solid #fae5b0; padding: 20px; border-radius: 12px; margin-top: 25px; text-align: left; }
+        
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">HELLBOY</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="belanja.html">Shopping</a> 
+            <a href="berita.html">Berita</a>
+        </div>
+    </nav>
+
+    <a href="https://wa.me/628983270261" class="wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <div class="container" id="home">
+        
+        <div class="kotak">
+            
+            <div id="page-cari">
+                <h2>Cek Keaslian</h2>
+                <p>Verifikasi produk Hellboy Anda di sini.</p>
+                <input type="text" id="inputKode" placeholder="Kode Unik (Contoh: 10001)" style="text-align: center; letter-spacing: 2px; font-weight: 600;">
+                <button class="btn-utama" id="btnCek" onclick="cekBarang()">VERIFIKASI SEKARANG</button>
+            </div>
+
+            <div id="page-daftar" class="hidden">
+                <span class="badge" style="background:#00b894;">✓ ORIGINAL PRODUCT</span>
+                <br><br>
+                
+                <img id="imgDaftar" src="" onerror="this.src='https://placehold.co/150'">
+                
+                <h3>Aktivasi Produk</h3>
+                <p style="margin-bottom: 15px;">Jadilah pemilik sah produk ini.</p>
+                <input type="text" id="regNama" placeholder="Nama Pemilik">
+                <input type="password" id="regSandi" placeholder="Buat PIN Rahasia">
+                <button class="btn-utama" id="btnKlaim" onclick="simpanKlaim()">KLAIM KEPEMILIKAN</button>
+            </div>
+
+            <div id="page-detail" class="hidden">
+                <span class="badge" style="background:#ff7675;">TERDAFTAR / SOLD</span>
+                <br><br>
+                
+                <img id="imgDetail" src="" onerror="this.src='https://placehold.co/150'">
+                
+                <h2 id="viewNama" style="font-size: 18px;">Nama Produk</h2>
+                <p id="viewDesc" style="font-size: 13px;">Deskripsi...</p>
+                
+                <div style="margin: 20px 0; text-align: left;">
+                    <div class="detail-row">
+                        <span style="color:#aaa;">Model</span>
+                        <span id="viewModel" style="font-weight:600;">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color:#aaa;">Tahun</span>
+                        <span id="viewTahun" style="font-weight:600;">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color:#aaa;">Pemilik</span>
+                        <span id="viewPemilik" style="color:#6c5ce7; font-weight:bold;">-</span>
+                    </div>
+                </div>
+
+                <div class="pesan-container">
+                    <strong style="font-size:11px; color:#d35400; letter-spacing:1px;">CATATAN:</strong>
+                    <br>
+                    <span id="tampilPesan" style="font-style:italic; font-size:14px; display:block; margin-top:5px;">"Pesan..."</span>
+                    <div id="areaEdit" class="hidden" style="margin-top:10px;">
+                        <input type="text" id="inputPesanBaru" placeholder="Tulis pesan baru...">
+                        <input type="password" id="inputSandiVerif" placeholder="Masukkan PIN untuk Konfirmasi" style="margin-top:5px;">
+                        <button class="btn-sukses" id="btnSimpanPesan" onclick="simpanPesanBaru()">Simpan Perubahan</button>
+                    </div>
+                    <button id="btnGembok" style="background:none; color:#b2bec3; font-size:12px; margin-top:10px;" onclick="bukaEdit()">
+                        <i class="fas fa-lock"></i> Ubah Pesan
+                    </button>
+                </div>
+                <button class="btn-abu" onclick="location.reload()">Cek Produk Lain</button>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3 class="section-title">Koleksi Terpopuler</h3>
+            <a href="belanja.html" class="see-all-link">
+                Lihat Semua Produk <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid-container">
+            <a href="https://www.tokopedia.com/search?q=pulpen+standard+biru" target="_blank" class="shop-link">
+                <div class="shop-card">
+                    <img src="blue-pen.png" class="shop-img" onerror="this.src='https://placehold.co/150'">
+                    <span class="shop-name">Standard Blue</span>
+                    <span class="shop-price">Rp 5.000</span>
+                </div>
+            </a>
+            <a href="https://shopee.co.id/search?keyword=topi+hitam" target="_blank" class="shop-link">
+                <div class="shop-card">
+                    <img src="topihitam.jpg" class="shop-img" onerror="this.src='https://placehold.co/150'">
+                    <span class="shop-name">Topi Hitam</span>
+                    <span class="shop-price">Rp 25.000</span>
+                </div>
+            </a>
+            <a href="https://www.tokopedia.com/search?q=spidol+hitam" target="_blank" class="shop-link">
+               <div class="shop-card">
+                    <img src="topihitam.jpg" class="shop-img" onerror="this.src='https://placehold.co/150'">
+    
+                    <span class="shop-name">Spidol Hitam</span>
+                    <span class="shop-price">Rp 8.500</span>
+                </div>
+            </a>
+            <a href="https://shopee.co.id/search?keyword=tipe+x+kertas" target="_blank" class="shop-link">
+                <div class="shop-card">
+                    <img src="https://drive.google.com/uc?export=view&id=1WwNAXlN_amax2_jomIi8ju4SSFj2aK2g" class="shop-img">
+                    <span class="shop-name">Tipe-X Kertas</span>
+                    <span class="shop-price">Rp 10.000</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="section-header">
+            <h3 class="section-title">Berita Terbaru</h3>
+            <a href="berita.html" class="see-all-link">
+                Lihat Semua Berita <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="news-list">
+            <a href="berita.html" class="news-item">
+                <div class="news-icon"><i class="fas fa-tag"></i></div>
+                <div class="news-content">
+                    <h4>Promo Harbolnas 12.12</h4>
+                    <p>Diskon hingga 50% untuk semua alat tulis kantor.</p>
+                </div>
+            </a>
+            <a href="berita.html" class="news-item">
+                <div class="news-icon"><i class="fas fa-award"></i></div>
+                <div class="news-content">
+                    <h4>Penghargaan Top Brand 2024</h4>
+                    <p>Hellboy terpilih sebagai merk alat tulis terfavorit.</p>
+                </div>
+            </a>
+        </div>
+
+        <div style="height: 50px;"></div>
+
+    </div>
+
+    <script>
+        // =================================================================
+        //  ↓↓↓ PASTE LINK URL DARI APPS SCRIPT ANDA DI SINI ↓↓↓
+        // =================================================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbx0MDvUMqnYO0GT6cJHsjwNOv_zdMrCNVTK-j5AyTF4UHLkj_0wkYy0uJeaYSEaf5Tt/exec";
+        // =================================================================
+
+        let kodeAktif = "";
+
+        function cekBarang() {
+            kodeAktif = document.getElementById("inputKode").value;
+            const btn = document.getElementById("btnCek");
+
+            if (!kodeAktif) { alert("Masukkan kode dulu!"); return; }
+
+            btn.innerText = "Memuat...";
+            btn.classList.add("btn-loading");
+
+            fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "cek", kode: kodeAktif })
+            })
+            .then(res => res.json())
+            .then(response => {
+                btn.innerText = "VERIFIKASI SEKARANG";
+                btn.classList.remove("btn-loading");
+
+                if (response.status === "success") {
+                    const data = response.data;
+                    if (data.statusJual === "terjual") {
+                        tampilkanDetail(data);
+                    } else {
+                        tampilkanDaftar(data);
+                    }
+                } else {
+                    alert("Kode tidak ditemukan atau salah input.");
+                }
+            })
+            .catch(error => {
+                alert("Gagal koneksi ke server. Cek internet Anda.");
+                btn.innerText = "VERIFIKASI SEKARANG";
+                btn.classList.remove("btn-loading");
+            });
+        }
+
+        function tampilkanDaftar(data) {
+            // Gambar diambil langsung dari sheet (nama file)
+            document.getElementById("imgDaftar").src = data.gambar; 
+            document.getElementById("page-cari").style.display = "none";
+            document.getElementById("page-daftar").style.display = "block";
+        }
+
+        function tampilkanDetail(data) {
+            document.getElementById("imgDetail").src = data.gambar;
+            document.getElementById("viewNama").innerText = data.nama;
+            document.getElementById("viewDesc").innerText = data.deskripsi;
+            document.getElementById("viewModel").innerText = data.model;
+            document.getElementById("viewTahun").innerText = data.tahun;
+            document.getElementById("viewPemilik").innerText = data.pemilik;
+
+            if (data.pesan) {
+                document.getElementById("tampilPesan").innerText = '"' + data.pesan + '"';
+            } else {
+                document.getElementById("tampilPesan").innerText = "Belum ada pesan.";
+            }
+
+            document.getElementById("areaEdit").style.display = "none";
+            document.getElementById("btnGembok").style.display = "inline-block";
+            document.getElementById("page-cari").style.display = "none";
+            document.getElementById("page-daftar").style.display = "none";
+            document.getElementById("page-detail").style.display = "block";
+        }
+
+        function simpanKlaim() {
+            const nama = document.getElementById("regNama").value;
+            const sandi = document.getElementById("regSandi").value;
+            const btn = document.getElementById("btnKlaim");
+
+            if (nama === "" || sandi === "") { alert("Isi semua data!"); return; }
+
+            btn.innerText = "Proses...";
+            btn.classList.add("btn-loading");
+
+            fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "klaim", kode: kodeAktif, nama: nama, sandi: sandi })
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.status === "success") {
+                    alert("Berhasil Klaim! Selamat.");
+                    location.reload();
+                } else {
+                    alert("Gagal: " + response.message);
+                    btn.innerText = "KLAIM KEPEMILIKAN";
+                    btn.classList.remove("btn-loading");
+                }
+            });
+        }
+
+        function bukaEdit() {
+            document.getElementById("areaEdit").style.display = "block";
+            document.getElementById("btnGembok").style.display = "none";
+        }
+
+        function simpanPesanBaru() {
+            const pesanBaru = document.getElementById("inputPesanBaru").value;
+            const sandiVerif = document.getElementById("inputSandiVerif").value;
+            const btn = document.getElementById("btnSimpanPesan");
+
+            if (sandiVerif === "") { alert("Masukkan PIN!"); return; }
+
+            btn.innerText = "Menyimpan...";
+            btn.classList.add("btn-loading");
+
+            fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "update", kode: kodeAktif, sandiInput: sandiVerif, pesanBaru: pesanBaru })
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.status === "success") {
+                    alert("Pesan Berhasil Diupdate!");
+                    document.getElementById("tampilPesan").innerText = '"' + pesanBaru + '"';
+                    document.getElementById("areaEdit").style.display = "none";
+                    document.getElementById("btnGembok").style.display = "inline-block";
+                    document.getElementById("inputSandiVerif").value = "";
+                } else {
+                    alert("Gagal: " + response.message);
+                }
+                btn.innerText = "Simpan Perubahan";
+                btn.classList.remove("btn-loading");
+            });
+        }
+    </script>
+</body>
+</html>

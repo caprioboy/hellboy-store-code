@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Klaim Password</title>
+    <style>
+        /* CSS TAMPILAN (Dibuat mirip screenshot Anda) */
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
+        .kotak { background: white; max-width: 400px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: left; }
+        
+        /* Judul & Deskripsi */
+        h2 { margin-bottom: 5px; color: #000; font-size: 24px; }
+        .deskripsi-text { color: #333; margin-top: 0; margin-bottom: 15px; }
+        
+        hr { border: 0; border-top: 1px solid #ccc; margin: 15px 0; }
+
+        /* Detail (Model, Tahun, Pemilik) */
+        .info-row { margin-bottom: 10px; color: #444; font-size: 16px; }
+        .info-label { font-weight: normal; color: #666; }
+        .pemilik-link { color: blue; text-decoration: none; cursor: pointer; }
+
+        /* KOTAK KUNING (Pesan) */
+        .pesan-box {
+            background-color: #fff8dc; /* Warna kuning lembut */
+            border: 1px solid #fae5b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .judul-pesan { font-weight: bold; color: #444; display: block; margin-bottom: 5px; }
+        .isi-pesan { font-style: italic; color: #555; margin-bottom: 15px; display: block; }
+
+        /* Input & Tombol */
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Agar padding tidak melebarkan kotak */
+        }
+
+        .btn-biru {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-biru:hover { background-color: #0056b3; }
+        
+        /* Halaman Awal */
+        #halamanPencarian, #halamanDaftar { text-align: center; }
+        .btn-search { margin-top: 10px; }
+        img { max-width: 150px; margin-bottom: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="kotak">
+        
+        <div id="halamanPencarian">
+            <h2 style="text-align: center;">Cek Produk</h2>
+            <p>Masukkan Kode Barcode</p>
+            <input type="text" id="inputKode" placeholder="Contoh: 10001" style="text-align: center;">
+            <button class="btn-biru btn-search" onclick="cariBarang()">Cek Sekarang</button>
+        </div>
+
+        <div id="halamanDaftar" style="display:none;">
+            <h3>Produk Ditemukan!</h3>
+            <img id="imgDaftar" src="">
+            <p>Silakan buat Nama & Password untuk mengklaim.</p>
+            
+            <input type="text" id="regNama" placeholder="Nama Anda">
+            <input type="password" id="regSandi" placeholder="Buat Kata Sandi (PENTING)">
+            <button class="btn-biru" onclick="simpanKlaim()">Klaim Produk</button>
+        </div>
+
+        <div id="halamanDetail" style="display:none;">
+            
+            <h2 id="tampilanNama">Nama Barang</h2>
+            
+            <p id="tampilanDeskripsi" class="deskripsi-text">Deskripsi produk...</p>
+            
+            <hr>
+
+            <div class="info-row">Model: <span id="tampilanModel" style="color: #000;">-</span></div>
+            <div class="info-row">Tahun: <span id="tampilanTahun" style="color: #000;">-</span></div>
+            <div class="info-row">Pemilik: <span id="tampilanPemilik" class="pemilik-link">-</span></div>
+
+            <div class="pesan-box">
+                <span class="judul-pesan">Catatan Pemilik:</span>
+                <span id="tampilanPesan" class="isi-pesan">"Belum ada pesan"</span>
+                
+                <div id="areaEdit" style="display: none;">
+                    <input type="text" id="inputPesanBaru" placeholder="Tulis pesan baru...">
+                    <button class="btn-biru" onclick="simpanPesan()">Simpan Pesan</button>
+                </div>
+
+                <button id="btnGembok" class="btn-biru" style="background:#6c757d;" onclick="bukaGembok()">🔒 Ubah Pesan</button>
+            </div>
+
+            <button onclick="location.reload()" style="background:none; border:none; color:#888; margin-top:20px; cursor:pointer; width:100%;">Cari Barang Lain</button>
+        </div>
+
+    </div>
+
+    <script>
+        // === DATABASE (Jangan Lupa Isi Foto) ===
+        const databaseGudang = {
+            "10001": {
+                nama: "Pulpen Standard Biru",
+                deskripsi: "Pulpen untuk menulis sehari-hari, tinta anti kering.", // Deskripsi tetap ada
+                model: "STD-B-01",
+                tahun: "2024",
+                img: "blue-pen.png" 
+            },
+            "10002": {
+                nama: "Buku Tulis Kiky",
+                deskripsi: "Buku tulis tebal isi 58 lembar gambar batik.",
+                model: "KKY-58",
+                tahun: "2023",
+                img: "https://via.placeholder.com/300?text=Buku" 
+            }
+        };
+
+        let kodeAktif = "";
+
+        // === LOGIKA ===
+        function cariBarang() {
+            kodeAktif = document.getElementById("inputKode").value;
+            
+            if (databaseGudang[kodeAktif]) {
+                const status = localStorage.getItem("status_" + kodeAktif);
+                if (status === "terjual") {
+                    bukaHalamanDetail();
+                } else {
+                    // Tampilkan form daftar
+                    document.getElementById("imgDaftar").src = databaseGudang[kodeAktif].img;
+                    document.getElementById("halamanPencarian").style.display = "none";
+                    document.getElementById("halamanDaftar").style.display = "block";
+                }
+            } else {
+                alert("Kode tidak ditemukan!");
+            }
+        }
+
+        function simpanKlaim() {
+            const nama = document.getElementById("regNama").value;
+            const sandi = document.getElementById("regSandi").value;
+
+            if (nama === "" || sandi === "") { alert("Isi semua data!"); return; }
+
+            // Simpan ke Memori
+            localStorage.setItem("status_" + kodeAktif, "terjual");
+            localStorage.setItem("pemilik_" + kodeAktif, nama);
+            localStorage.setItem("sandi_" + kodeAktif, sandi); // Password disimpan
+
+            alert("Klaim Berhasil! Password Anda: " + sandi);
+            bukaHalamanDetail();
+        }
+
+        function bukaHalamanDetail() {
+            const data = databaseGudang[kodeAktif];
+            const pemilik = localStorage.getItem("pemilik_" + kodeAktif);
+            const pesan = localStorage.getItem("pesan_" + kodeAktif);
+
+            // Masukkan Data ke HTML
+            document.getElementById("tampilanNama").innerText = data.nama;
+            document.getElementById("tampilanDeskripsi").innerText = data.deskripsi; // Deskripsi masuk sini
+            document.getElementById("tampilanModel").innerText = data.model;
+            document.getElementById("tampilanTahun").innerText = data.tahun;
+            document.getElementById("tampilanPemilik").innerText = pemilik;
+
+            if (pesan) document.getElementById("tampilanPesan").innerText = '"' + pesan + '"';
+            else document.getElementById("tampilanPesan").innerText = '"Belum ada pesan."';
+
+            // Reset Tampilan Edit
+            document.getElementById("areaEdit").style.display = "none";
+            document.getElementById("btnGembok").style.display = "block";
+
+            // Ganti Halaman
+            document.getElementById("halamanPencarian").style.display = "none";
+            document.getElementById("halamanDaftar").style.display = "none";
+            document.getElementById("halamanDetail").style.display = "block";
+        }
+
+        // --- LOGIKA PASSWORD ---
+        function bukaGembok() {
+            const sandiAsli = localStorage.getItem("sandi_" + kodeAktif);
+            const inputSandi = prompt("Masukkan Kata Sandi Pemilik:");
+
+            if (inputSandi === sandiAsli) {
+                // Jika Sandi Benar -> Munculkan Form seperti di screenshot
+                document.getElementById("btnGembok").style.display = "none";
+                document.getElementById("areaEdit").style.display = "block";
+                
+                // Isi otomatis pesan lama ke input biar gampang edit
+                const pesanLama = document.getElementById("tampilanPesan").innerText.replace(/"/g, "");
+                if (pesanLama !== "Belum ada pesan.") {
+                    document.getElementById("inputPesanBaru").value = pesanLama;
+                }
+            } else {
+                if (inputSandi !== null) alert("Sandi Salah!");
+            }
+        }
+
+        function simpanPesan() {
+            const pesanBaru = document.getElementById("inputPesanBaru").value;
+            localStorage.setItem("pesan_" + kodeAktif, pesanBaru);
+            
+            document.getElementById("tampilanPesan").innerText = '"' + pesanBaru + '"';
+            
+            // Kembalikan ke mode gembok agar aman lagi
+            document.getElementById("areaEdit").style.display = "none";
+            document.getElementById("btnGembok").style.display = "block";
+            
+            alert("Pesan tersimpan!");
+        }
+    </script>
+</body>
+</html>
