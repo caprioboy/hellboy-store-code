@@ -319,7 +319,7 @@
                 </div>
             </a>
             <a href="https://www.tokopedia.com/search?q=spidol+hitam" target="_blank" class="shop-link">
-               <div class="shop-card">
+                <div class="shop-card">
                     <img src="sandalmerah.png" class="shop-img" onerror="this.src='https://placehold.co/150'">
                     <span class="shop-name">Sandal Merah</span>
                     <span class="shop-price">Rp 99.000</span>
@@ -327,7 +327,7 @@
             </a>
             <a href="https://shopee.co.id/search?keyword=tipe+x+kertas" target="_blank" class="shop-link">
                 <div class="shop-card">
-                    <img src="sandalbiru.png" class="shop-img">
+                    <img src="sandalbiru.png" class="shop-img" onerror="this.src='https://placehold.co/150'">
                     <span class="shop-name">Sandal X Cross Blue</span>
                     <span class="shop-price">Rp 28.600</span>
                 </div>
@@ -364,7 +364,7 @@
 
     <script>
         // =================================================================
-        //  ↓↓↓ PASTE LINK URL DARI APPS SCRIPT ANDA DI SINI ↓↓↓
+        //  PASTE LINK URL DARI APPS SCRIPT ANDA DI SINI
         // =================================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbx0MDvUMqnYO0GT6cJHsjwNOv_zdMrCNVTK-j5AyTF4UHLkj_0wkYy0uJeaYSEaf5Tt/exec";
         // =================================================================
@@ -391,13 +391,15 @@
 
                 if (response.status === "success") {
                     const data = response.data;
+                    
+                    // Logika baru: Data (Gambar, Desc, dll) semua dari Server
                     if (data.statusJual === "terjual") {
                         tampilkanDetail(data);
                     } else {
                         tampilkanDaftar(data);
                     }
                 } else {
-                    alert("Kode tidak ditemukan atau salah input.");
+                    alert("Kode tidak ditemukan atau belum terdaftar di Sheet.");
                 }
             })
             .catch(error => {
@@ -408,7 +410,7 @@
         }
 
         function tampilkanDaftar(data) {
-            // Gambar diambil langsung dari sheet (nama file)
+            // Mengambil data dari Sheet (data.gambar, data.deskripsi, dll)
             document.getElementById("imgDaftar").src = data.gambar; 
             document.getElementById("page-cari").style.display = "none";
             document.getElementById("page-daftar").style.display = "block";
@@ -417,9 +419,9 @@
         function tampilkanDetail(data) {
             document.getElementById("imgDetail").src = data.gambar;
             document.getElementById("viewNama").innerText = data.nama;
-            document.getElementById("viewDesc").innerText = data.deskripsi;
+            document.getElementById("viewDesc").innerText = data.deskripsi; // Dari Sheet
             document.getElementById("viewModel").innerText = data.model;
-            document.getElementById("viewTahun").innerText = data.tahun;
+            document.getElementById("viewTahun").innerText = data.tahun; // Dari Sheet
             document.getElementById("viewPemilik").innerText = data.pemilik;
 
             if (data.pesan) {
